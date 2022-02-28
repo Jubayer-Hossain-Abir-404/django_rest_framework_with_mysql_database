@@ -59,10 +59,24 @@ def updateProduct(request, pk):
 
     # pass all the data that is in the json response
     # and when it is valid
-
-    serializer = ProductSerializer(data=request.data)
+    product = Product.objects.get(id=pk)
+    serializer = ProductSerializer(instance=product, data=request.data)
     if serializer.is_valid():
         serializer.save()
 
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def deleteProduct(request, pk):
+    # we are getting all the data from
+    # request.data
+    # and sending it to the serializer
+
+    # pass all the data that is in the json response
+    # and when it is valid
+    product = Product.objects.get(id=pk)
+    product.delete()
+    
+    return Response('Items deleted successfully!')
 
